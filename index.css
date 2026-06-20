@@ -1,6 +1,6 @@
   .camera-panel {
     position: relative; /* makes it the anchor for anything inside it that uses absolute positioning */
-    width: 50%;
+    width: 100%;
     height: 100vh;
     overflow: hidden;
     background: #000;
