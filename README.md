@@ -1,11 +1,14 @@
-SquatForm
+<h1>Formyoula</h1>
 
-Real-time squat form tracking, powered by computer vision — built as a full-stack web app.
+Hi! We're Malcolm and Megan, and this is our fitness app, Formyoula, designed to help you perfect your exercise form. 
 
-Built together by Malcolm and Megan.
+<h2>What is it?</h2>
+Formyoula watches you perform any exercise of your choosing through your camera, scores your form in real time, and tracks your progress over time. Without proper form in the gym, building and targetting the right muscle groups will be nearly impossible. 
 
-What is this? SquatForm watches you squat through your webcam, scores your form in real time, and tracks your progress over time. It started as a single-file pose-tracking demo and is growing into a full production app: user accounts, a real database, a REST API, video replays, and analytics dashboards. No wearables. No guesswork. Just your camera and some math.
+<h2>Features</h2>
+<P>- Wide variety of exercises to choose from</P>
+<P>- Live webcam tracking your form, using vector math to score it</P>
+<P>- Home page with popular and favourited exercises</P>
+<p>- Ability to upload videos to be assessed for proper form</p>
 
-Features Live form tracking — pose detection runs right in the browser, no server round-trip needed for the core tracking loop Rep-by-rep scoring — depth, knee tracking, and faults (like knees caving in) are scored on every single rep User accounts — register/login with hashed passwords and JWT-based auth Persistent history — every session and rep gets saved, so progress is never lost Video recording — record your set and upload it straight to cloud storage for later review Analytics — trends in form score, best depth, and weekly activity over time
-
-Built by Malcolm and Megan — figuring out full-stack development one squat at a time. PRs, ideas, and form critiques welcome.
+Currently a work in progress - feedback and ideas are always welcome! :)
