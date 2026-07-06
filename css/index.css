@@ -20,7 +20,6 @@ h1 {
   justify-content: center;
   margin-right: auto;
   margin-left: auto;
-  margin-top: 40%;
   margin-bottom: auto;
   font-size: 50px;
 }
@@ -67,4 +66,13 @@ h3 {
     height: 35px;
     border-radius: 6px;
     cursor: pointer;
+}
+
+.logo-img {
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 15%;
 }

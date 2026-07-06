@@ -20,8 +20,6 @@
 
   <div class="topnav">
     <a href="#home">Home</a>
-    <a href="#about"> About</a>
-    <a href="#contact"> Contact</a>
     <img src="https://img.icons8.com/ios11/512/search.png" alt="search">
     <input type="text" class="search-box" placeholder="Search...">
   </div>
@@ -163,7 +161,6 @@
   document.getElementById('kneeDisplay').textContent = Math.round(kneeAvg);
 
   
-  
 
     }
 
@@ -249,13 +246,106 @@
     return (Math.acos(cosVal) * 180) / Math.PI;
   }
 
- 
+  const THRESHOLDS = {
+    STANDING_KNEE: 160,
+    DEPTH_KNEE:     90,
+    KNEE_CAVE_DIFF:  20,
+    VISIBILITY_MIN:  0.6
+  };
+
+  const isStanding = kneeAvg > THRESHOLDS.STANDING_KNEE;
+
+  const goodDepth = kneeAvg < THRESHOLDS.DEPTH_KNEE;
+
+  const kneeCave = Math.abs(kneeAngleL - kneeAngleR) > THRESHOLDS.KNEE_CAVE_DIFF; 
+  
+  const PHASE = { 
+    STAND: 'standing',
+    DESC: 'descending',
+    BOTTOM: 'bottom', 
+    ASC: 'ascending'
+  };
+
+  let state = {
+    phase: PHASE.STAND,
+    reps:  0,
+    currentRepDepth: 180,
+    currentRepFaults: [],
+    formScores: []
+  };
+
+  function runStateMachine(kneeAvg, kneeCave, isStanding) {
+
+    switch(state.phase) {
+
+      case PHASE.STAND: 
+
+        if (!isStanding && kneeAvg> THRESHOLDS.STANDING_KNEE - 10) {
+          state.phase = PHASE.DESC;
+          state.currentRepDepth = kneeAvg;
+          state.currentRepFaults = [];
+        }
+      break;
+
+      case PHASE.DESC:
+        state.currentRepDepth = Math.min(state.currentRepDepth, kneeAvg);
+
+        if (kneeCave && !state.currentRepFaults.includes('knee caving')) {
+          state.currentRepFaults.push('knee caving');
+        }
+
+        if (knee.Avg < 70) {
+          state.phase = PHASE.BOTTOM;
+        }
+
+        if (isStanding) {
+          state.phase = PHASE.ASC;
+        }
+      break;
+
+      case PHASE.BOTTOM:
+        state.currentRepDepth = Math.min(state.currentRepDepth, kneeAvg);
+
+        if (kneeAvg > state.currentRepDepth + 15) {
+          state.phase = PHASE.ASC;
+        }
+      break;
+
+      case PHASE.ASC:
+        
+        if (isStanding) {
+          //completeRep(); 
+          state.phase = PHASE.STAND;
+        }
+        break;
+    }
 
 
+    function setFeedback(text,sub) {
+      document.getElementById('feedbackText').textContent = text;
+      document.getElementById('feedbackSub').textContent = sub;
+    }
 
+    if (kneeCave) {
+      setFeedback('Knees caving in!', 'Push knees out over toes')
+    } else if (!goodDepth) {
+      setFeedback('Go Deeper', 'Aim for knee angle below 90');
+    } else {
+      setFeedback('Good Depth!', "Hold at the bottom");
+    };
+
+
+  }
   </script>
 
+
+
   <h1 class="knee-display">The value for number is: <span id="kneeDisplay">0</span></h1>
+
+  <div id="feedbackBox" class="feedback-box">
+    <div id="feedbackText"> Waiting for camera</div>
+    <div id="feedbackSub">Stand in frame to begin</div>
+  </div>
 
     
 

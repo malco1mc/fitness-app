@@ -115,3 +115,9 @@
     margin-left: auto;
 
   }
+
+  .feedback-box {
+    padding: 14px;
+    border-radius: 8px;
+    border: 1px solid;
+  }
