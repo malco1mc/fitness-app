@@ -16,7 +16,7 @@
 <body>
   <p1 class="title">form<i>you</i>la</p1>
 
-  <a href="index.html" class="back-button">Back</a>
+  <a href="main.html" class="back-button">Back</a>
 
   <div class="topnav">
     <a href="#home">Home</a>
@@ -314,7 +314,7 @@
       case PHASE.ASC:
         
         if (isStanding) {
-          //completeRep(); 
+          completeRep(); 
           state.phase = PHASE.STAND;
         }
         break;
@@ -334,6 +334,54 @@
       setFeedback('Good Depth!', "Hold at the bottom");
     };
 
+    function completeRep() {
+      state.reps++;
+
+      const depth = state.currentRepDepth;
+      const faults = state.currentRepFaults;
+      let score = 100;
+
+      if (depth > THRESHOLDS.DEPTH_KNEE) score -= 30;
+      else if (depth > 80) score -= 15; 
+
+      if (faults.includes('knee caving')) score -= 25;
+
+      score = Math.max(0, Math.round(score));
+      state.formScores.push(score);
+
+      if (state.bestDepth === null || depth < state.bestDepth) {
+        state.bestDepth = depth;
+      }
+
+      const avgScore = Math.round(
+        state.formScores.reduce((a, b) => a + b, 0) / state.formScores.length
+      );
+
+      document.getElementById('repCount').textContent = state.reps;
+      document.getElementById('formScore').textContent = avgScore + '%';
+      document.getElementById('depthVal').textContent = Math.round(state,bestDepth) + '°';
+
+      // Decide badge quality
+      let quality = 'good',  badge = 'Perfect';
+      if      (score < 50) { quality = 'error'; badge = 'Needs work'; }
+      else if (score < 80) { quality = 'warn';  badge = 'Decent'; }
+
+      // Append to history list
+      const historyEl = document.getElementById('repHistory');
+      const faultStr  = faults.length ? faults.join(', ') : 'clean rep';
+
+      const item = document.createElement('div');
+      item.className = 'rep-item';
+      item.innerHTML = `
+        <span>Rep ${state.reps}</span>
+        <span>${Math.round(depth)}° · ${faultStr}</span>
+        <span class="rep-badge ${quality}">${badge}</span>
+      `;
+      // Prepend so newest rep appears at top
+      historyEl.insertBefore(item, historyEl.firstChild);
+
+
+    }
 
   }
   </script>
@@ -345,6 +393,9 @@
   <div id="feedbackBox" class="feedback-box">
     <div id="feedbackText"> Waiting for camera</div>
     <div id="feedbackSub">Stand in frame to begin</div>
+    <div class="rep-count">Rep is : <span id="repCount">0</span><div>
+    <div class="form-score">The score for the form is : <span id="formScore">0</span><div>
+    <div class="depth-val">The depth is : <span id="depthVal">0</span><div>
   </div>
 
     
