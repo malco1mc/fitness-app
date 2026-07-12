@@ -7,7 +7,128 @@
     --darkest: #3F334D; 
 }
 
-body {
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    background: #333333;
+    display: flex;
+}
+
+.header__button {
+    width: var(--header-height);
+    flex-shrink: 0;
+    background: none;
+    outline: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+}
+    
+.nav__links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    height: 100vh;
+    width: 250px;
+    background: #ffffff;
+    transform: translate(-250px);
+    transition: transform 0.2s;
+}
+
+.nav--open .nav__links {
+    transform: translate(0);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.nav__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+
+}
+
+.nav--open .nav__overlay {
+    visibility: visible;
+    opacity: 1;
+}
+
+.nav__link {
+    display: flex;
+    align-items: center;
+    color: #666666;
+    font-family: "Kulim Park", sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+    padding: 12px 15px; 
+    background: transform 0.3s;
+}
+
+.nav__link > i {
+    margin-right: 15px;
+}
+
+.nav__link--active, .btnnav__link:hover,
+.nav__link:hover {
+    color: #009578;
+    background: #eeeeee;
+}
+
+.btnnav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 55px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    border-radius: 60px;
+    border: 2px solid black;
+    display: flex;
+    overflow-x: auto;
+    
+}
+
+.btnnav__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    min-width: 50px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: "Kulim Park", sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+    padding: 12px 15px; 
+    color: #444444;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.1s ease-in-out;
+
+}
+
+.nav--icon {
+    font-size: 20px;
+}
+
+
+
+
+.body {
+    --header-height: 60px;
+    margin: var(--header-height) 0 55px 0;
     font-family: "Kulim Park", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -15,6 +136,8 @@ body {
   }
 
 .main-logo {
+    --header-height: 40px;
+    margin: var(--header-height) 0 0 0;
     color: var(--darkest);
 }
 
@@ -83,7 +206,7 @@ body {
 
 .card {
     flex: 11em 0 0;
-    height: 17em;
+    height: 30em;
     background-color: var(--med-two);
     padding: 1em;
     border-radius: .5em;
